@@ -30,7 +30,6 @@ public class WhiskyParser {
 				Review r = new Review(columnArr[0], columnArr[1], Integer.parseInt(columnArr[2]),
 						Integer.parseInt(columnArr[3]), columnArr[4]);
 				columnList.add(r);
-
 			}
 			br.close();
 		} catch (IOException e) {
@@ -43,15 +42,8 @@ public class WhiskyParser {
 
 	}
 
-	public String toString() {
-		String columnStr = new String();
-		for (int i = 0; i < stemColumnList.size(); i++) {
-			columnStr += "name: " + stemColumnList.get(i).getName() + "\nCategory: "
-					+ stemColumnList.get(i).getCategory() + "\nReview Score: " + stemColumnList.get(i).getReviewPt()
-					+ "\nPrice: " + stemColumnList.get(i).getPrice() + "\nReview: "
-					+ stemColumnList.get(i).getReviewDesc() + "\n\n";
-		}
-		return columnStr;
+	public ArrayList<Review> getStemList(){
+		return stemColumnList;
 	}
 
 	public String[] parse(String review) {
@@ -116,6 +108,17 @@ public class WhiskyParser {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+	}
+	
+	public String toString() {
+		String columnStr = new String();
+		for (int i = 0; i < stemColumnList.size(); i++) {
+			columnStr += "name: " + stemColumnList.get(i).getName() + "\nCategory: "
+					+ stemColumnList.get(i).getCategory() + "\nReview Score: " + stemColumnList.get(i).getReviewPt()
+					+ "\nPrice: " + stemColumnList.get(i).getPrice() + "\nReview: "
+					+ stemColumnList.get(i).getReviewDesc() + "\n\n";
+		}
+		return columnStr;
 	}
 }
 

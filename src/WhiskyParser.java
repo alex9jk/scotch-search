@@ -1,13 +1,17 @@
 import java.util.*;
 import java.io.*;
-
 public class WhiskyParser {
 
 	public static void main(String[] args) {
 		WhiskyParser wp = new WhiskyParser();
 		wp.processStopWords();
 		wp.tokenReview();
-		System.out.println(wp.toString());
+		InvertedIndex ii = new InvertedIndex(wp.getStemList());
+		ii.getReviewSize();
+		System.out.println(ii.toString());
+		
+		//System.out.println(ii.getTermList().size());
+	//	System.out.println(wp.toString());
 	}
 
 	private ArrayList<Review> columnList;
@@ -19,7 +23,7 @@ public class WhiskyParser {
 		columnList = new ArrayList<Review>();
 
 		try {
-			File dataFile = new File("C:\\Users\\alex9\\eclipse-workspace\\Whisky\\src\\data1.csv");
+			File dataFile = new File("C:\\Users\\alex9\\eclipse-workspace\\Whisky\\src\\test.csv");
 			FileReader fr = new FileReader(dataFile);
 			BufferedReader br = new BufferedReader(fr);
 			String line = null;
@@ -27,6 +31,8 @@ public class WhiskyParser {
 			String[] columnArr;
 			while ((line = br.readLine()) != null) {
 				columnArr = line.split(",");
+			//	System.out.println(line);
+//				System.out.println(columnArr[1]);
 				Review r = new Review(columnArr[0], columnArr[1], Integer.parseInt(columnArr[2]),
 						Integer.parseInt(columnArr[3]), columnArr[4]);
 				columnList.add(r);
@@ -61,7 +67,7 @@ public class WhiskyParser {
 			String[] tokens = parse(columnList.get(i).getReviewDesc());
 
 			for (String token : tokens) {
-				if (stopWordCheck(token) != -1) {
+				if ((stopWordCheck(token) != -1) || (token.matches(".*\\d+.*")) ) {
 					continue;
 				} else {
 					st.add(token.toCharArray(), token.length());
